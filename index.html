@@ -54,7 +54,15 @@
       const [selectedVolunteer, setSelectedVolunteer] = useState(null);
       const [customName, setCustomName] = useState('');
       const [guestData, setGuestData] = useState({ name: '', guests: 1, email: '', joinList: false });
-      const [logs, setLogs] = useState([]);
+     const [logs, setLogs] = useState(() => {
+  if (typeof window === 'undefined') return [];
+  const saved = localStorage.getItem('volunteerLogs');
+  return saved ? JSON.parse(saved) : [];
+});
+      useEffect(() => {
+  localStorage.setItem('volunteerLogs', JSON.stringify(logs));
+}, [logs]);
+    
       const [selectedVolunteerForHours, setSelectedVolunteerForHours] = useState(null);
       const [commentText, setCommentText] = useState('');
 
